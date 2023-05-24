@@ -2,7 +2,7 @@
 
 import Foundation
 import UIKit
-//import SnapKit
+import SnapKit
 
 class DocumentsViewController: UIViewController {
         
@@ -67,16 +67,25 @@ extension DocumentsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension DocumentsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage  else { return }
         
-        images.removeAll()
-        images.append(image)
-        
+//        images.removeAll()
+//        images.append(image)
+//
         DocumentsFileManager().managerAddImage(image)
-        documentsView.reload()
+//        documentsView.reload()
+        DocumentsFileManager().managerInfo()
+        print("info.keys",  info.keys)
+        print("info.values", info.values)
         
+//        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
     }
+        
 }

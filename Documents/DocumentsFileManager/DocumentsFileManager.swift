@@ -34,4 +34,25 @@ struct DocumentsFileManager {
             print("error", error)
         }
     }
+    
+    func managerInfo() {
+        do {
+            let attributes = try manager.attributesOfItem(atPath: documentsUrl().relativePath)
+            
+            guard let type = attributes[.type] else { return }
+            print("type", type)
+            guard let creationDate = attributes[.creationDate] else { return }
+            print("creationDate", creationDate)
+            print("attributes", attributes)
+//            print("creationDate", attributes)
+//            print("creationDate", attributes)
+//            print("creationDate", attributes)
+//            print("creationDate", attributes)
+//            print("creationDate", attributes)
+//            print("creationDate", attributes)
+        } catch let error {
+            print(error, "error")
+        }
+        
+    }
 }

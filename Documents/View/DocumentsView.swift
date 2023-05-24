@@ -2,7 +2,7 @@
 
 import Foundation
 import UIKit
-//import SnapKit
+import SnapKit
 
 protocol DocumentsViewDelegate: AnyObject {
     func addImage()
@@ -58,12 +58,12 @@ class DocumentsView: UIView {
         self.addSubview(self.tableView)
         
         
-//        self.tableView.snp.makeConstraints { maker in
-//            maker.top.equalToSuperview()
-//            maker.bottom.equalToSuperview()
-//            maker.leading.equalToSuperview()
-//            maker.trailing.equalToSuperview()
-//        }
+        self.tableView.snp.makeConstraints { maker in
+            maker.top.equalToSuperview()
+            maker.bottom.equalToSuperview()
+            maker.leading.equalToSuperview()
+            maker.trailing.equalToSuperview()
+        }
     }
     
     @objc func addImage() {
