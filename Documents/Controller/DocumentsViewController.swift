@@ -8,7 +8,7 @@ class DocumentsViewController: UIViewController {
         
     private lazy var documentsView = DocumentsView(delegate: self)
         
-    private var images: [UIImage] = []
+    var images: [UIImage] = []
         
     override func loadView() {
         super.loadView()
@@ -18,9 +18,30 @@ class DocumentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.arrive()
+        
         documentsView.configureTableView(dataSource: self, delegate: self)
         documentsView.navigationController(navigation: navigationItem, rightButton: documentsView.rightButton, title: "Documents")
+        
+        documentsView.reload()
     }
+    
+    func arrive() {
+        do {
+            let contents = try FileManager.default.contentsOfDirectory(at: DocumentsFileManager().managerCreateUrl(),
+                                                           includingPropertiesForKeys: nil,
+                                                               options: [.skipsHiddenFiles])
+                print(contents.count)
+                for file in contents {
+                    let filePath = file.lastPathComponent
+                    print(filePath)
+                    let abs = filePath
+                    images.append(UIImage(named: abs)!)
+                }
+            } catch let error {
+                print(error, "error")
+            }
+        }
 }
 
 
@@ -48,14 +69,14 @@ extension DocumentsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UIScreen.main.bounds.size.height / 4
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        UIScreen.main.bounds.size.height / 4
+//    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
             
-            DocumentsFileManager().managerDeleteImage()
+//            DocumentsFileManager().managerDeleteImage()
             self.images.removeAll()
             self.documentsView.reload()
         }
@@ -72,16 +93,14 @@ extension DocumentsViewController: UIImagePickerControllerDelegate, UINavigation
         
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage  else { return }
         
-//        images.removeAll()
-//        images.append(image)
-//
-        DocumentsFileManager().managerAddImage(image)
-//        documentsView.reload()
-        DocumentsFileManager().managerInfo()
-        print("info.keys",  info.keys)
-        print("info.values", info.values)
+        images.append(image)
+        let manager = DocumentsFileManager()
+        manager.managerAddImage(image, manager.managerCreateName(manager.managerCreateUrl()))
+        documentsView.reload()
         
-//        picker.dismiss(animated: true)
+        
+        print("images",images)
+        picker.dismiss(animated: true)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

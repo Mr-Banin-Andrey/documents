@@ -6,53 +6,63 @@ struct DocumentsFileManager {
     
     private let manager = FileManager.default
     
-    private func documentsUrl() -> URL {
+    func managerCreateUrl() -> URL {
         do {
             let documentsUrl = try manager.url(for: .documentDirectory,
                                                in: .userDomainMask,
                                                appropriateFor: nil,
                                                create: false)
-            
-            let imagePath = documentsUrl.appendingPathComponent("image.jpg")
-            return imagePath
+            return documentsUrl
         } catch let error {
             print(error, "error")
         }
-        return URL(fileURLWithPath: "")
+        return URL(filePath: "")
     }
     
-    
-    func managerAddImage(_ image: UIImage) {
-        let data = image.jpegData(compressionQuality: 1.0)
-        manager.createFile(atPath: documentsUrl().relativePath, contents: data)
-    }
-    
-    func managerDeleteImage() {
-        do {
-            try manager.removeItem(atPath: documentsUrl().relativePath)
-        } catch let error {
-            print("error", error)
-        }
-    }
-    
-    func managerInfo() {
-        do {
-            let attributes = try manager.attributesOfItem(atPath: documentsUrl().relativePath)
-            
-            guard let type = attributes[.type] else { return }
-            print("type", type)
-            guard let creationDate = attributes[.creationDate] else { return }
-            print("creationDate", creationDate)
-            print("attributes", attributes)
-//            print("creationDate", attributes)
-//            print("creationDate", attributes)
-//            print("creationDate", attributes)
-//            print("creationDate", attributes)
-//            print("creationDate", attributes)
-//            print("creationDate", attributes)
-        } catch let error {
-            print(error, "error")
-        }
+    func managerCreateName(_ url: URL) -> URL {
+
+        let fileNameRandom = UUID().uuidString
+        let imagePath = url.appending(path: "\(fileNameRandom).jpg")
         
+        return imagePath
     }
+    
+    func managerAddImage(_ image: UIImage, _ url: URL) {
+        
+        let data = image.jpegData(compressionQuality: 1.0)
+        manager.createFile(atPath: url.path(), contents: data)
+    }
+    
+    
+    func managerFiles(_ url: URL) {
+        do {
+            let contents = try manager.contentsOfDirectory(at: url,
+                                                       includingPropertiesForKeys: nil ,
+                                                           options: [.skipsHiddenFiles])
+            print(contents.count)
+            for file in contents {
+                let filePath = file.lastPathComponent
+                print(filePath)
+                DocumentsViewController().images.append(UIImage(named: filePath) ?? UIImage())
+            }
+        } catch let error {
+            print(error, "error")
+        }
+        print(DocumentsViewController().images)
+    }
+    
+    
+//    func managerDeleteImage() {
+//        do {
+////            print(documentsUrl())
+//            try manager.removeItem(at: documentsUrl())
+//
+////            try manager.removeItem(atPath: <#T##String#>)
+////            try manager.removeItem(at: <#T##URL#>)
+//        } catch let error {
+//            print("error", error)
+//        }
+//    }
+    
+    
 }
