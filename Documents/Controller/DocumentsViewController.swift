@@ -7,7 +7,9 @@ import SnapKit
 class DocumentsViewController: UIViewController {
         
     private lazy var documentsView = DocumentsView(delegate: self)
-        
+    
+    private let documents = DocumentsFileManager()
+    
     var images: [UIImage] = []
         
     override func loadView() {
@@ -18,30 +20,34 @@ class DocumentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.arrive()
+        images = documents.managerFiles(self.documents.managerCreateUrl())
         
         documentsView.configureTableView(dataSource: self, delegate: self)
         documentsView.navigationController(navigation: navigationItem, rightButton: documentsView.rightButton, title: "Documents")
         
-        documentsView.reload()
     }
     
-    func arrive() {
-        do {
-            let contents = try FileManager.default.contentsOfDirectory(at: DocumentsFileManager().managerCreateUrl(),
-                                                           includingPropertiesForKeys: nil,
-                                                               options: [.skipsHiddenFiles])
-                print(contents.count)
-                for file in contents {
-                    let filePath = file.lastPathComponent
-                    print(filePath)
-                    let abs = filePath
-                    images.append(UIImage(named: abs)!)
-                }
-            } catch let error {
-                print(error, "error")
-            }
-        }
+//    func arrive() {
+//        let manager = FileManager.default
+//
+//        do {
+//            let contents = try manager.contentsOfDirectory(at: DocumentsFileManager().managerCreateUrl(),
+//                                                           includingPropertiesForKeys: nil,
+//                                                               options: [.skipsHiddenFiles])
+//
+//            print(contents.count)
+//
+//            for file in contents {
+//
+//                guard let image = UIImage(contentsOfFile: file.path()) else { return }
+//                print("image", image)
+//                images.append(image)
+//            }
+//        } catch let error {
+//            print(error, "error")
+//        }
+//    }
+        
 }
 
 
@@ -64,8 +70,9 @@ extension DocumentsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCellId", for: indexPath)
-        
+        print("indexPath.row ===", indexPath.row)
         cell.imageView?.image = images[indexPath.row]
+//        print("indexPath.row ===", indexPath.row)
         return cell
     }
     
@@ -76,8 +83,10 @@ extension DocumentsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
             
-//            DocumentsFileManager().managerDeleteImage()
-            self.images.removeAll()
+            DocumentsFileManager().managerDeleteImage(DocumentsFileManager().managerCreateUrl(), numberImage: indexPath.row)
+
+            print("indexPath.row - ", indexPath.row)
+            self.images.remove(at: indexPath.row)
             self.documentsView.reload()
         }
         
@@ -94,6 +103,7 @@ extension DocumentsViewController: UIImagePickerControllerDelegate, UINavigation
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage  else { return }
         
         images.append(image)
+        
         let manager = DocumentsFileManager()
         manager.managerAddImage(image, manager.managerCreateName(manager.managerCreateUrl()))
         documentsView.reload()

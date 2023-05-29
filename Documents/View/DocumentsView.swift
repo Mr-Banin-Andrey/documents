@@ -26,7 +26,6 @@ class DocumentsView: UIView {
     init(delegate: DocumentsViewDelegate) {
         self.delegate = delegate
         super.init(frame: .zero)
-        
         self.setupUI()
     }
     
@@ -57,12 +56,10 @@ class DocumentsView: UIView {
     func setupUI() {
         self.addSubview(self.tableView)
         
-        
         self.tableView.snp.makeConstraints { maker in
             maker.top.equalToSuperview()
             maker.bottom.equalToSuperview()
-            maker.leading.equalToSuperview()
-            maker.trailing.equalToSuperview()
+            maker.leading.trailing.equalToSuperview()
         }
     }
     

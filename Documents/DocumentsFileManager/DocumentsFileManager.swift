@@ -20,7 +20,6 @@ struct DocumentsFileManager {
     }
     
     func managerCreateName(_ url: URL) -> URL {
-
         let fileNameRandom = UUID().uuidString
         let imagePath = url.appending(path: "\(fileNameRandom).jpg")
         
@@ -34,35 +33,39 @@ struct DocumentsFileManager {
     }
     
     
-    func managerFiles(_ url: URL) {
+    func managerFiles(_ url: URL) -> [UIImage] {
+        
         do {
             let contents = try manager.contentsOfDirectory(at: url,
-                                                       includingPropertiesForKeys: nil ,
+                                                           includingPropertiesForKeys: nil,
                                                            options: [.skipsHiddenFiles])
             print(contents.count)
+            var images: [UIImage] = []
             for file in contents {
-                let filePath = file.lastPathComponent
-                print(filePath)
-                DocumentsViewController().images.append(UIImage(named: filePath) ?? UIImage())
+                if let image = UIImage(contentsOfFile: file.path()) {
+                    images.append(image)
+                }
             }
+            return images
         } catch let error {
             print(error, "error")
         }
-        print(DocumentsViewController().images)
+        return [UIImage()]
     }
     
     
-//    func managerDeleteImage() {
-//        do {
-////            print(documentsUrl())
-//            try manager.removeItem(at: documentsUrl())
-//
-////            try manager.removeItem(atPath: <#T##String#>)
-////            try manager.removeItem(at: <#T##URL#>)
-//        } catch let error {
-//            print("error", error)
-//        }
-//    }
+    func managerDeleteImage(_ url: URL, numberImage: Int) {
+        do {
+            let contents = try manager.contentsOfDirectory(at: url,
+                                                           includingPropertiesForKeys: nil,
+                                                           options: [.skipsHiddenFiles])
+            
+            let abs = contents[numberImage]
+            try manager.removeItem(atPath: abs.path())
+        } catch let error {
+            print("error", error)
+        }
+    }
     
     
 }
