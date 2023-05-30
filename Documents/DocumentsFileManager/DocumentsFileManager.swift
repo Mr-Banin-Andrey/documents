@@ -19,11 +19,12 @@ struct DocumentsFileManager {
         return URL(filePath: "")
     }
     
-    func managerCreateName(_ url: URL) -> URL {
+    func managerCreateName(_ url: URL) -> (URL, String) {
         let fileNameRandom = UUID().uuidString
-        let imagePath = url.appending(path: "\(fileNameRandom).jpg")
+        let name = "\(fileNameRandom).jpg"
+        let imagePath = url.appending(path: name)
         
-        return imagePath
+        return (imagePath, name)
     }
     
     func managerAddImage(_ image: UIImage, _ url: URL) {
@@ -33,39 +34,43 @@ struct DocumentsFileManager {
     }
     
     
-    func managerFiles(_ url: URL) -> [UIImage] {
+    func managerFiles(_ url: URL) -> [DocumentsModel] {
+        var images: [DocumentsModel] = []
         
-        do {
-            let contents = try manager.contentsOfDirectory(at: url,
-                                                           includingPropertiesForKeys: nil,
-                                                           options: [.skipsHiddenFiles])
-            print(contents.count)
-            var images: [UIImage] = []
-            for file in contents {
-                if let image = UIImage(contentsOfFile: file.path()) {
-                    images.append(image)
-                }
+        for file in contents(url) {
+            if let image = UIImage(contentsOfFile: file.path()) {
+                images.append(DocumentsModel(nameImage: file.lastPathComponent,
+                                             image: image))
             }
-            return images
-        } catch let error {
-            print(error, "error")
         }
-        return [UIImage()]
+            
+        return images
     }
     
     
-    func managerDeleteImage(_ url: URL, numberImage: Int) {
+    func managerDeleteImage(_ url: URL, name: String) {
+        
+        for file in contents(url) {
+            if file.lastPathComponent == name {
+                do {
+                    try manager.removeItem(atPath: file.path())
+                    
+                } catch let error {
+                    print("error", error)
+                }
+            }
+        }
+    }
+    
+    func contents(_ url: URL) -> [URL] {
         do {
             let contents = try manager.contentsOfDirectory(at: url,
                                                            includingPropertiesForKeys: nil,
                                                            options: [.skipsHiddenFiles])
-            
-            let abs = contents[numberImage]
-            try manager.removeItem(atPath: abs.path())
+            return contents
         } catch let error {
             print("error", error)
         }
+        return [URL(fileURLWithPath: "")]
     }
-    
-    
 }
