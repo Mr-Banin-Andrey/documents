@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9D24089D2A1E628700181915 /* DocumentsFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D24089C2A1E628700181915 /* DocumentsFileManager.swift */; };
-		9D2408A02A1E85CD00181915 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9D24089F2A1E85CD00181915 /* SnapKit */; };
 		9D2EB2D32A260971000EEE51 /* DocumentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2EB2D22A260971000EEE51 /* DocumentsModel.swift */; };
+		9D2EB2E42A27D241000EEE51 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2EB2E32A27D241000EEE51 /* LoginViewController.swift */; };
+		9D2EB2E62A27D25B000EEE51 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2EB2E52A27D25B000EEE51 /* LoginView.swift */; };
+		9D2EB2EE2A27E1AD000EEE51 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9D2EB2ED2A27E1AD000EEE51 /* SnapKit */; };
+		9D2EB2F12A27E207000EEE51 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 9D2EB2F02A27E207000EEE51 /* KeychainAccess */; };
 		9D4FB8E52A1D4F2F0002920B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4FB8E42A1D4F2F0002920B /* AppDelegate.swift */; };
 		9D4FB8E72A1D4F2F0002920B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4FB8E62A1D4F2F0002920B /* SceneDelegate.swift */; };
 		9D4FB8EE2A1D4F300002920B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D4FB8ED2A1D4F300002920B /* Assets.xcassets */; };
@@ -21,6 +24,8 @@
 /* Begin PBXFileReference section */
 		9D24089C2A1E628700181915 /* DocumentsFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsFileManager.swift; sourceTree = "<group>"; };
 		9D2EB2D22A260971000EEE51 /* DocumentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsModel.swift; sourceTree = "<group>"; };
+		9D2EB2E32A27D241000EEE51 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9D2EB2E52A27D25B000EEE51 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9D4FB8E12A1D4F2F0002920B /* Documents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Documents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D4FB8E42A1D4F2F0002920B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D4FB8E62A1D4F2F0002920B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,7 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D2408A02A1E85CD00181915 /* SnapKit in Frameworks */,
+				9D2EB2F12A27E207000EEE51 /* KeychainAccess in Frameworks */,
+				9D2EB2EE2A27E1AD000EEE51 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,6 +55,50 @@
 				9D24089C2A1E628700181915 /* DocumentsFileManager.swift */,
 			);
 			path = DocumentsFileManager;
+			sourceTree = "<group>";
+		};
+		9D2EB2DE2A27CA26000EEE51 /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				9D4FB8FA2A1E5D2E0002920B /* Models */,
+				9D4FB8FC2A1E5D400002920B /* View */,
+				9D4FB8FB2A1E5D360002920B /* Controller */,
+				9D24089B2A1E61DE00181915 /* DocumentsFileManager */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
+		9D2EB2DF2A27CA61000EEE51 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9D2EB2E22A27D018000EEE51 /* Controller */,
+				9D2EB2E12A27D008000EEE51 /* View */,
+				9D2EB2E02A27CFF3000EEE51 /* Model */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		9D2EB2E02A27CFF3000EEE51 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9D2EB2E12A27D008000EEE51 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9D2EB2E52A27D25B000EEE51 /* LoginView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9D2EB2E22A27D018000EEE51 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9D2EB2E32A27D241000EEE51 /* LoginViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		9D4FB8D82A1D4F2F0002920B = {
@@ -71,10 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				9D4FB8F82A1E5D050002920B /* Application layer */,
-				9D24089B2A1E61DE00181915 /* DocumentsFileManager */,
-				9D4FB8FB2A1E5D360002920B /* Controller */,
-				9D4FB8FA2A1E5D2E0002920B /* Models */,
-				9D4FB8FC2A1E5D400002920B /* View */,
+				9D2EB2DE2A27CA26000EEE51 /* Documents */,
+				9D2EB2DF2A27CA61000EEE51 /* Login */,
 				9D4FB8ED2A1D4F300002920B /* Assets.xcassets */,
 				9D4FB8EF2A1D4F300002920B /* LaunchScreen.storyboard */,
 				9D4FB8F22A1D4F300002920B /* Info.plist */,
@@ -132,7 +180,8 @@
 			);
 			name = Documents;
 			packageProductDependencies = (
-				9D24089F2A1E85CD00181915 /* SnapKit */,
+				9D2EB2ED2A27E1AD000EEE51 /* SnapKit */,
+				9D2EB2F02A27E207000EEE51 /* KeychainAccess */,
 			);
 			productName = Documents;
 			productReference = 9D4FB8E12A1D4F2F0002920B /* Documents.app */;
@@ -163,7 +212,8 @@
 			);
 			mainGroup = 9D4FB8D82A1D4F2F0002920B;
 			packageReferences = (
-				9D24089E2A1E85CD00181915 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9D2EB2EC2A27E1AD000EEE51 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9D2EB2EF2A27E207000EEE51 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 9D4FB8E22A1D4F2F0002920B /* Products */;
 			projectDirPath = "";
@@ -191,11 +241,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D2EB2E42A27D241000EEE51 /* LoginViewController.swift in Sources */,
 				9D24089D2A1E628700181915 /* DocumentsFileManager.swift in Sources */,
 				9D4FB9002A1E5E3E0002920B /* DocumentsViewController.swift in Sources */,
 				9D2EB2D32A260971000EEE51 /* DocumentsModel.swift in Sources */,
 				9D4FB8E52A1D4F2F0002920B /* AppDelegate.swift in Sources */,
 				9D4FB8E72A1D4F2F0002920B /* SceneDelegate.swift in Sources */,
+				9D2EB2E62A27D25B000EEE51 /* LoginView.swift in Sources */,
 				9D4FB8FE2A1E5E280002920B /* DocumentsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -414,7 +466,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9D24089E2A1E85CD00181915 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		9D2EB2EC2A27E1AD000EEE51 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
@@ -422,13 +474,26 @@
 				minimumVersion = 5.6.0;
 			};
 		};
+		9D2EB2EF2A27E207000EEE51 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9D24089F2A1E85CD00181915 /* SnapKit */ = {
+		9D2EB2ED2A27E1AD000EEE51 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9D24089E2A1E85CD00181915 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 9D2EB2EC2A27E1AD000EEE51 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		9D2EB2F02A27E207000EEE51 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D2EB2EF2A27E207000EEE51 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
