@@ -4,7 +4,7 @@ import UIKit
 import SnapKit
 
 protocol LoginViewDelegate: AnyObject {
-    func loginOrRegister()
+    func loginOrRegister(password: String)
 }
 
 class LoginView: UIView {
@@ -70,7 +70,7 @@ class LoginView: UIView {
     func status(isRegister: Bool) {
         
         if isRegister {
-            passwordTextField.placeholder = "..."
+            passwordTextField.placeholder = "....."
             loginOrRegisterButton.setTitle("Введите пароль", for: .normal)
         } else {
             passwordTextField.placeholder = " Пароль минимум из 4 символов "
@@ -78,7 +78,13 @@ class LoginView: UIView {
         }
     }
     
+    func createPassword() {
+        loginOrRegisterButton.setTitle("Повторите пароль", for: .normal)
+    }
+    
     @objc private func loginOrRegister() {
-        delegate?.loginOrRegister()
+        guard let password = passwordTextField.text else { return }
+        delegate?.loginOrRegister(password: password)
+        passwordTextField.text = ""
     }
 }
