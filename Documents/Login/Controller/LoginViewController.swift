@@ -23,14 +23,17 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginView.status(isRegister: true)
-        status = checkStatus()
+        let checkStatus = checkStatus()
+        status = checkStatus.0
+        loginView.status(isRegister: checkStatus.1)
     }
     
     func loginOrRegister(statusPassword: StatusLogin, password: String) {
         switch statusPassword {
         
         case .newPassword:
+            
+//            print("clear")
             
             if password.isEmpty {
                 print("error")
@@ -47,14 +50,17 @@ class LoginViewController: UIViewController {
                 }
             }
 
+//            keychain.deletePassword(password: password)
+            
         case .checkNewPassword:
             
+//            print("clear")
+            
             if keychain.repeatPassword(password) {
-                
                 keychain.checkPassword()
                 print(".checkNewPassword ------keychain.repeatPassword === \(password)")
                 loginView.status(isRegister: true)
-                
+
                 keychain.addPasswordInKeychain(password)
                 status = .createdPassword
                 keychain.statusLogin(status: status, key: "statusLogin")
@@ -67,25 +73,41 @@ class LoginViewController: UIViewController {
                 status = .newPassword
             }
         
+//            keychain.deletePassword(password: password)
+                
         case .createdPassword:
-            print("вошёл")
-//            print(keychain.retrievePassword()!)
+//            print("clear")
+//            print("вошёл")
+//            print(keychain.retrievePassword())
+
+            var isCheckPassword = keychain.retrievePassword(textPassword: password)
+
+            if isCheckPassword {
+                print(" isCheckPassword - if let-", isCheckPassword)
+                let documentsVC = DocumentsViewController()
+                navigationController?.pushViewController(documentsVC, animated: true)
+                print("вошёл")
+            } else {
+//                print(" isCheckPassword - } else { -", isCheckPassword)
+                print("не вошел - ошибка")
+            }
+//            keychain.deletePassword(password: password)
         }
     }
     
-    func checkStatus() -> StatusLogin {
+    func checkStatus() -> (StatusLogin, Bool) {
         print("userDefaults -=-=-", UserDefaults().integer(forKey: "statusLogin"))
         
         if let savedData = UserDefaults().data(forKey: "statusLogin") {
             do {
                 let savedStatus = try JSONDecoder().decode(StatusLogin.self, from: savedData)
                 print("savedStatus -", savedStatus)
-                return savedStatus
+                return (savedStatus, true)
             } catch let error {
                 print(error, "error")
             }
         }
-        return .newPassword
+        return (.newPassword, false)
     }
 }
 
