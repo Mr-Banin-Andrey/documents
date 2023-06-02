@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum StatusLogin {
+enum StatusLogin: Codable {
     case newPassword
     case checkNewPassword
     case createdPassword
