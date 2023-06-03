@@ -11,6 +11,8 @@ class DocumentsViewController: UIViewController {
     private let manager = DocumentsFileManager()
     
     var images: [DocumentsModel] = []
+    
+    var isMySwitcher: Bool = true
             
     override func loadView() {
         super.loadView()
@@ -20,9 +22,12 @@ class DocumentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TabBarController().setupTabBar()
+        tabBarController?.tabBar.isHidden = false
+        navigationItem.hidesBackButton = true
         
-        self.images = manager.managerFiles(manager.managerCreateUrl())
+//        moreOrLess(mySwitcher: SettingsViewController().sorted())
+//        self.images = manager.managerFilesMore(manager.managerCreateUrl())
+        moreOrLess(mySwitcher: isMySwitcher)
         
         self.documentsView.configureTableView(dataSource: self,
                                               delegate: self)
@@ -31,6 +36,48 @@ class DocumentsViewController: UIViewController {
                                                 rightButton: documentsView.rightButton,
                                                 title: "Documents")
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//
+//        moreOrLess(mySwitcher: isMySwitcher)
+//        print("SettingsViewController().sorted(UISwitch())", SettingsViewController().sorted(UISwitch()))
+//
+//    }
+    
+    func moreOrLess(mySwitcher: Bool) {
+        
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(receivedNotification(notification:)),
+//                                               name: NSNotification.Name.,
+//                                               object: nil)
+        
+        print("moreOrLess", mySwitcher)
+        if mySwitcher {
+//            print("SettingsViewController().mySwitch", SettingsViewController().mySwitch)
+            self.images = manager.managerFilesMore(manager.managerCreateUrl())
+//            print(images)
+            documentsView.reload()
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("default"), object: nil, queue: nil) { (notification) in
+                print("notification")
+            }
+            
+
+        } else {
+            
+//            print("SettingsViewController().mySwitch", SettingsViewController().mySwitch)
+            self.images = manager.managerFilesLess(manager.managerCreateUrl())
+//            print(images)
+            documentsView.reload()
+        }
+    }
+    
+//    @objc func receivedNotification(notification: Notification) {
+//
+//        //Take Action on Notification
+//
+//    }
 }
 
 

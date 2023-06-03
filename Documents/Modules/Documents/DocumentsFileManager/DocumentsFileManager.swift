@@ -34,7 +34,7 @@ struct DocumentsFileManager {
     }
     
     
-    func managerFiles(_ url: URL) -> [DocumentsModel] {
+    func managerFilesMore(_ url: URL) -> [DocumentsModel] {
         var images: [DocumentsModel] = []
         
         for file in contents(url) {
@@ -43,9 +43,30 @@ struct DocumentsFileManager {
                                              image: image))
             }
         }
-            
+        images.sort {
+            $0.nameImage < $1.nameImage
+        }
+        
         return images
     }
+    
+    func managerFilesLess(_ url: URL) -> [DocumentsModel] {
+        var images: [DocumentsModel] = []
+        
+        for file in contents(url) {
+            if let image = UIImage(contentsOfFile: file.path()) {
+                images.append(DocumentsModel(nameImage: file.lastPathComponent,
+                                             image: image))
+            }
+        }
+        images.sort {
+            $0.nameImage > $1.nameImage
+        }
+        
+        return images
+    }
+    
+    
     
     
     func managerDeleteImage(_ url: URL, name: String) {

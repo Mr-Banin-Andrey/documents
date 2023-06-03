@@ -143,6 +143,7 @@
 				9D4FB8F82A1E5D050002920B /* Application layer */,
 				9D2EB2DF2A27CA61000EEE51 /* Login */,
 				9D6706332A2B353D00438374 /* Modules */,
+				9D6706382A2B364700438374 /* TabBar */,
 				9D4FB8ED2A1D4F300002920B /* Assets.xcassets */,
 				9D4FB8EF2A1D4F300002920B /* LaunchScreen.storyboard */,
 				9D4FB8F22A1D4F300002920B /* Info.plist */,
@@ -186,7 +187,6 @@
 		9D6706332A2B353D00438374 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				9D6706382A2B364700438374 /* TabBar */,
 				9D2EB2DE2A27CA26000EEE51 /* Documents */,
 				9D6706342A2B354B00438374 /* Settings */,
 			);

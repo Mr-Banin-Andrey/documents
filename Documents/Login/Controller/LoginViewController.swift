@@ -23,12 +23,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBarController?.tabBar.isHidden = true
+        
         let checkStatus = checkStatus()
         status = checkStatus.0
         loginView.editTitle(isRegister: checkStatus.1)
-    }
-    
-    
+    }    
     
     func loginOrRegister(statusPassword: StatusLogin, password: String) {
         switch statusPassword {
@@ -40,6 +40,7 @@ class LoginViewController: UIViewController {
             if password.isEmpty {
                 print("error")
                 // алерт с пустым значением
+                loginView.showAlert(vc: self, title: "Ошибка", message: "Пароль должен быть заполнен", button: "Попробовать ещё раз")
             } else {
                 if keychain.createPassword(password) {
                     loginView.repeatPassword()
@@ -48,6 +49,7 @@ class LoginViewController: UIViewController {
                     status = .checkNewPassword
                 } else {
                     // алерт знаков менее 4
+                    loginView.showAlert(vc: self, title: "Ошибка", message: "Пароль не менее 4 символов", button: "Попробовать ещё раз")
                     print("// алерт знаков менее 4")
                 }
             }
@@ -71,6 +73,7 @@ class LoginViewController: UIViewController {
                 loginView.editTitle(isRegister: false)
                 keychain.clearVariable()
                 print("// вызвать алерт с ошибкой пароля")
+                loginView.showAlert(vc: self, title: "Ошибка", message: "Пароль не менее 4 символов", button: "Попробовать ещё раз")
                 // вызвать алерт с ошибкой пароля
                 status = .newPassword
             }
@@ -88,6 +91,7 @@ class LoginViewController: UIViewController {
                 print("вошёл")
             } else {
                 print("не вошел - ошибка")
+                loginView.showAlert(vc: self, title: "Ошибка", message: "Неверный пароль", button: "Попробовать ещё раз")
             }
             
 //            keychain.deletePassword(password: password)

@@ -75,6 +75,14 @@ class LoginView: UIView {
         loginOrRegisterButton.setTitle("Повторите пароль", for: .normal)
     }
     
+    func showAlert(vc: UIViewController, title: String, message: String, button: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: button, style: .default)
+        alert.addAction(action)
+        
+        vc.present(alert, animated: true)
+    }
+    
     @objc private func loginOrRegister() {
         guard let password = passwordTextField.text else { return }
         delegate?.loginOrRegister(password: password)

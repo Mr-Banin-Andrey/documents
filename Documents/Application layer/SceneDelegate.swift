@@ -14,15 +14,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        guard let window = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
         
         
 //        UserDefaults.standard.removeObject(forKey: "statusLogin")
         
+        let tabBarController = TabBarController()
         
-        self.window = UIWindow(windowScene: window)
-        self.window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-        self.window?.makeKeyAndVisible()
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+        self.window = window
         
     }
 
