@@ -19,12 +19,6 @@ class LoginView: UIView {
         return label
     }()
     
-//    private lazy var loginTextField: UITextField = {
-//        let textField = UITextField()
-//        textField.translatesAutoresizingMaskIntoConstraints = false
-//        return textField
-//    }()
-    
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +43,6 @@ class LoginView: UIView {
     
     private func setupUI() {
         self.addSubview(self.loginOrRegisterButton)
-//        self.addSubview(self.loginTextField)
         self.addSubview(self.passwordTextField)
 
         self.loginOrRegisterButton.snp.makeConstraints { maker in
@@ -67,7 +60,7 @@ class LoginView: UIView {
         }
     }
     
-    func status(isRegister: Bool) {
+    func editTitle(isRegister: Bool) {
         
         if isRegister {
             passwordTextField.placeholder = "....."
@@ -78,7 +71,7 @@ class LoginView: UIView {
         }
     }
     
-    func createPassword() {
+    func repeatPassword() {
         loginOrRegisterButton.setTitle("Повторите пароль", for: .normal)
     }
     

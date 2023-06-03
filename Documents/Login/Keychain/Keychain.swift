@@ -1,31 +1,15 @@
-//
-//  Keychain.swift
-//  Documents
-//
-//  Created by Андрей Банин on 1.6.23..
-//
 
 import Foundation
 import Security
 
 
-//protocol KeychainDelegate: AnyObject {
-//    func addPassword()
-//    func checkPassword()
-//}
-
 class Keychain {
-    
-//    private weak var delegate: KeychainDelegate?
     
     private var firstPassword = ""
     private var secondPassword = ""
     
     let userDefaults = UserDefaults.standard
-//    init(delegate: KeychainDelegate) {
-//        self.delegate = delegate
-//    }
-    
+
     
     func createPassword(_ password: String) -> Bool {
         if password.count >= 4 {
@@ -66,8 +50,7 @@ class Keychain {
         let attributes = [
             kSecClass: kSecClassGenericPassword,
             kSecValueData: passData,
-//            kSecAttrServer: password.service
-        ] as CFDictionary
+        ] as [CFString : Any] as CFDictionary
         
         let status = SecItemAdd(attributes, nil)
         guard status == errSecDuplicateItem || status == errSecSuccess else {
@@ -83,9 +66,7 @@ class Keychain {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecReturnData: true
-//            kSecValueData: passData,
-//            kSecAttrServer: password.service
-        ] as CFDictionary
+        ] as [CFString : Any] as CFDictionary
         
         var extractedData: AnyObject?
         let status = SecItemCopyMatching(query, &extractedData)
@@ -121,7 +102,7 @@ class Keychain {
         do {
             let data = try JSONEncoder().encode(status)
             userDefaults.set(data, forKey: key)
-            print("закондирован статус")
+            print("закодирован статус")
         } catch let error {
             print(error)
         }
@@ -129,7 +110,6 @@ class Keychain {
     }
     
     func deletePassword(password: String) {
-        
         
         guard let passData = password.data(using: .utf8) else {
             print("Error - not could Data from password")
@@ -139,22 +119,9 @@ class Keychain {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecValueData: passData,
-//            kSecAttrServer: password.service
-        ] as CFDictionary
-        
-        
-//        let query = [
-//            kSecClass: kSecClassGenericPassword,
-//            kSecReturnData: true
-////            kSecValueData: passData,
-////            kSecAttrServer: password.service
-//        ] as CFDictionary
-        
-//        var extractedData: AnyObject?
-//        let status = SecItemCopyMatching(query, &extractedData)
+        ] as [CFString : Any] as CFDictionary
         
         let status = SecItemDelete(query)
-        
         guard status == errSecItemNotFound || status == errSecSuccess else {
             print("Error, \(status)")
             return
@@ -166,22 +133,6 @@ class Keychain {
         }
         
         print("password deleted")
-        
-//        guard let passData = extractedData as? Data,
-//              let password = String(data: passData, encoding: .utf8) else {
-//            print("невозможно преобразовать data в пароль")
-////            return nil
-//        }
-        
-//        guard password == textPassword else {
-//
-//            print("password -", password)
-//            print("textPassword -", textPassword)
-//            print("пароль неверный")
-////            return nil
-//        }
-            
-//        return true
     }
     
 }

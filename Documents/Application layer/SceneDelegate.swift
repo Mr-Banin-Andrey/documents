@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let window = (scene as? UIWindowScene) else { return }
         
         
-        UserDefaults.standard.removeObject(forKey: "statusLogin")
+//        UserDefaults.standard.removeObject(forKey: "statusLogin")
         
         
         self.window = UIWindow(windowScene: window)

@@ -20,6 +20,8 @@ class DocumentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        TabBarController().setupTabBar()
+        
         self.images = manager.managerFiles(manager.managerCreateUrl())
         
         self.documentsView.configureTableView(dataSource: self,

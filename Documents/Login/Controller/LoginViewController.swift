@@ -25,8 +25,10 @@ class LoginViewController: UIViewController {
         
         let checkStatus = checkStatus()
         status = checkStatus.0
-        loginView.status(isRegister: checkStatus.1)
+        loginView.editTitle(isRegister: checkStatus.1)
     }
+    
+    
     
     func loginOrRegister(statusPassword: StatusLogin, password: String) {
         switch statusPassword {
@@ -40,7 +42,7 @@ class LoginViewController: UIViewController {
                 // алерт с пустым значением
             } else {
                 if keychain.createPassword(password) {
-                    loginView.createPassword()
+                    loginView.repeatPassword()
                     print(".newPassword ------keychain.createPassword === \(password)")
 
                     status = .checkNewPassword
@@ -59,14 +61,14 @@ class LoginViewController: UIViewController {
             if keychain.repeatPassword(password) {
                 keychain.checkPassword()
                 print(".checkNewPassword ------keychain.repeatPassword === \(password)")
-                loginView.status(isRegister: true)
+                loginView.editTitle(isRegister: true)
 
                 keychain.addPasswordInKeychain(password)
                 status = .createdPassword
                 keychain.statusLogin(status: status, key: "statusLogin")
 
             } else {
-                loginView.status(isRegister: false)
+                loginView.editTitle(isRegister: false)
                 keychain.clearVariable()
                 print("// вызвать алерт с ошибкой пароля")
                 // вызвать алерт с ошибкой пароля
@@ -76,11 +78,8 @@ class LoginViewController: UIViewController {
 //            keychain.deletePassword(password: password)
                 
         case .createdPassword:
-//            print("clear")
-//            print("вошёл")
-//            print(keychain.retrievePassword())
 
-            var isCheckPassword = keychain.retrievePassword(textPassword: password)
+            let isCheckPassword = keychain.retrievePassword(textPassword: password)
 
             if isCheckPassword {
                 print(" isCheckPassword - if let-", isCheckPassword)
@@ -88,15 +87,15 @@ class LoginViewController: UIViewController {
                 navigationController?.pushViewController(documentsVC, animated: true)
                 print("вошёл")
             } else {
-//                print(" isCheckPassword - } else { -", isCheckPassword)
                 print("не вошел - ошибка")
             }
+            
 //            keychain.deletePassword(password: password)
         }
     }
     
     func checkStatus() -> (StatusLogin, Bool) {
-        print("userDefaults -=-=-", UserDefaults().integer(forKey: "statusLogin"))
+        print("userDefaults ---", UserDefaults().integer(forKey: "statusLogin"))
         
         if let savedData = UserDefaults().data(forKey: "statusLogin") {
             do {
