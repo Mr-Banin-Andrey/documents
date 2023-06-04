@@ -21,10 +21,11 @@ class SettingsView: UIView {
         return button
     }()
     
-    private lazy var sortSwitch: UISwitch = {
+    private var sortSwitch: UISwitch = {
         let sortSwitch = UISwitch()
         sortSwitch.translatesAutoresizingMaskIntoConstraints = false
         sortSwitch.addTarget(self, action: #selector(sortPhoto), for: .valueChanged)
+        sortSwitch.isOn = true
         return sortSwitch
     }()
     

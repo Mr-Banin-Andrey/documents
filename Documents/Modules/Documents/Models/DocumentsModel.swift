@@ -6,5 +6,3 @@ struct DocumentsModel {
     let nameImage: String
     let image: UIImage
 }
-
-

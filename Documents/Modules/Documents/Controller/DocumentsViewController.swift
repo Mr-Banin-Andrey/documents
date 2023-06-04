@@ -11,9 +11,7 @@ class DocumentsViewController: UIViewController {
     private let manager = DocumentsFileManager()
     
     var images: [DocumentsModel] = []
-    
-    var isMySwitcher: Bool = true
-            
+                
     override func loadView() {
         super.loadView()
         view = documentsView
@@ -25,9 +23,23 @@ class DocumentsViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         navigationItem.hidesBackButton = true
         
-//        moreOrLess(mySwitcher: SettingsViewController().sorted())
-//        self.images = manager.managerFilesMore(manager.managerCreateUrl())
-        moreOrLess(mySwitcher: isMySwitcher)
+        manager.managerFilesMore(manager.managerCreateUrl()) { array in
+            self.images = array
+            self.images.sort {
+                $0.nameImage < $1.nameImage
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(moreArray),
+                                               name: NSNotification.Name("senderOn"),
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(lessArray),
+                                               name: NSNotification.Name("senderOff"),
+                                               object: nil)
+        
         
         self.documentsView.configureTableView(dataSource: self,
                                               delegate: self)
@@ -37,47 +49,27 @@ class DocumentsViewController: UIViewController {
                                                 title: "Documents")
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//
-//        moreOrLess(mySwitcher: isMySwitcher)
-//        print("SettingsViewController().sorted(UISwitch())", SettingsViewController().sorted(UISwitch()))
-//
-//    }
     
-    func moreOrLess(mySwitcher: Bool) {
-        
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(receivedNotification(notification:)),
-//                                               name: NSNotification.Name.,
-//                                               object: nil)
-        
-        print("moreOrLess", mySwitcher)
-        if mySwitcher {
-//            print("SettingsViewController().mySwitch", SettingsViewController().mySwitch)
-            self.images = manager.managerFilesMore(manager.managerCreateUrl())
-//            print(images)
-            documentsView.reload()
-            NotificationCenter.default.addObserver(forName: NSNotification.Name("default"), object: nil, queue: nil) { (notification) in
-                print("notification")
+    @objc func moreArray() {
+        manager.managerFilesMore(manager.managerCreateUrl()) { array in
+            self.images = array
+            self.images.sort {
+                $0.nameImage < $1.nameImage
             }
-            
-
-        } else {
-            
-//            print("SettingsViewController().mySwitch", SettingsViewController().mySwitch)
-            self.images = manager.managerFilesLess(manager.managerCreateUrl())
-//            print(images)
-            documentsView.reload()
         }
+        documentsView.reload()
     }
     
-//    @objc func receivedNotification(notification: Notification) {
-//
-//        //Take Action on Notification
-//
-//    }
+    @objc func lessArray() {
+        manager.managerFilesMore(manager.managerCreateUrl()) { array in
+            self.images = array
+            self.images.sort {
+                $0.nameImage > $1.nameImage
+            }
+        }
+        documentsView.reload()
+    }
+    
 }
 
 
@@ -111,7 +103,7 @@ extension DocumentsViewController: UITableViewDataSource, UITableViewDelegate {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _ in
             
             let nameImage = self.images[indexPath.row].nameImage
-
+            
             self.manager.managerDeleteImage(
                 self.manager.managerCreateUrl(),
                 name: nameImage)
