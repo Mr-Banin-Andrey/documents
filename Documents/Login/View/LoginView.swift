@@ -47,14 +47,14 @@ class LoginView: UIView {
 
         self.loginOrRegisterButton.snp.makeConstraints { maker in
             maker.centerX.equalTo(self.snp.centerX)
-            maker.centerY.equalTo(self.snp.centerY).offset(70)
+            maker.centerY.equalTo(self.snp.centerY) 
             maker.height.equalTo(32)
             maker.width.equalTo(200)
         }
 
         self.passwordTextField.snp.makeConstraints { maker in
             maker.centerX.equalTo(self.snp.centerX)
-            maker.centerY.equalTo(self.snp.centerY)
+            maker.top.equalTo(self.snp.top).inset(350)
             maker.height.equalTo(32)
             maker.leading.trailing.equalToSuperview().inset(32)
         }

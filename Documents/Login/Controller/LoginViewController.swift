@@ -3,7 +3,6 @@ import Foundation
 import UIKit
 
 
-
 class LoginViewController: UIViewController {
     
     private lazy var loginView = LoginView(delegate: self)
@@ -13,6 +12,8 @@ class LoginViewController: UIViewController {
     private lazy var isCreatePassword: Bool = false
     
     private lazy var status: StatusLogin = .newPassword
+    
+    
     
     override func loadView() {
         super.loadView()
@@ -35,34 +36,28 @@ class LoginViewController: UIViewController {
         
         case .newPassword:
             
-//            print("clear")
-            
-            if password.isEmpty {
-                print("error")
-                // алерт с пустым значением
-                loginView.showAlert(vc: self, title: "Ошибка", message: "Пароль должен быть заполнен", button: "Попробовать ещё раз")
-            } else {
-                if keychain.createPassword(password) {
-                    loginView.repeatPassword()
-                    print(".newPassword ------keychain.createPassword === \(password)")
-
-                    status = .checkNewPassword
-                } else {
-                    // алерт знаков менее 4
-                    loginView.showAlert(vc: self, title: "Ошибка", message: "Пароль не менее 4 символов", button: "Попробовать ещё раз")
-                    print("// алерт знаков менее 4")
-                }
-            }
-
 //            keychain.deletePassword(password: password)
+            guard password.isEmpty == false else {
+                return loginView.showAlert(vc: self,
+                                           title: "Ошибка",
+                                           message: "Пароль должен быть заполнен",
+                                           button: "Попробовать ещё раз")}
+
+            guard keychain.createPassword(password) == true else {
+                return loginView.showAlert(vc: self,
+                                           title: "Ошибка",
+                                           message: "Пароль не менее 4 символов",
+                                           button: "Попробовать ещё раз")}
             
+
+            loginView.repeatPassword()
+            status = .checkNewPassword
+
         case .checkNewPassword:
-            
-//            print("clear")
-            
+
             if keychain.repeatPassword(password) {
+                
                 keychain.checkPassword()
-                print(".checkNewPassword ------keychain.repeatPassword === \(password)")
                 loginView.editTitle(isRegister: true)
 
                 keychain.addPasswordInKeychain(password)
@@ -72,34 +67,33 @@ class LoginViewController: UIViewController {
             } else {
                 loginView.editTitle(isRegister: false)
                 keychain.clearVariable()
-                print("// вызвать алерт с ошибкой пароля")
-                loginView.showAlert(vc: self, title: "Ошибка", message: "Пароль не менее 4 символов", button: "Попробовать ещё раз")
-                // вызвать алерт с ошибкой пароля
+                loginView.showAlert(vc: self,
+                                    title: "Ошибка",
+                                    message: "Пароль не менее 4 символов",
+                                    button: "Попробовать ещё раз")
                 status = .newPassword
             }
-        
-//            keychain.deletePassword(password: password)
-                
+
         case .createdPassword:
 
             let isCheckPassword = keychain.retrievePassword(textPassword: password)
 
             if isCheckPassword {
-                print(" isCheckPassword - if let-", isCheckPassword)
                 let documentsVC = DocumentsViewController()
                 navigationController?.pushViewController(documentsVC, animated: true)
-                print("вошёл")
             } else {
-                print("не вошел - ошибка")
                 loginView.showAlert(vc: self, title: "Ошибка", message: "Неверный пароль", button: "Попробовать ещё раз")
             }
-            
+//            changePassword(password: password)
 //            keychain.deletePassword(password: password)
         }
     }
     
+    func changePassword(password: String) {
+        keychain.changePassword(password: password)
+    }
+    
     func checkStatus() -> (StatusLogin, Bool) {
-        print("userDefaults ---", UserDefaults().integer(forKey: "statusLogin"))
         
         if let savedData = UserDefaults().data(forKey: "statusLogin") {
             do {
@@ -117,6 +111,42 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginViewDelegate {
 
     func loginOrRegister(password: String) {
-        loginOrRegister(statusPassword: status, password: password)
+        
+        if isModal {
+            guard password.isEmpty == false else {
+                return loginView.showAlert(vc: self,
+                                           title: "Ошибка",
+                                           message: "Пароль должен быть заполнен",
+                                           button: "Попробовать ещё раз")}
+            guard keychain.createPassword(password) == true else {
+                return loginView.showAlert(vc: self,
+                                           title: "Ошибка",
+                                           message: "Пароль не менее 4 символов",
+                                           button: "Попробовать ещё раз")}
+            changePassword(password: password)
+            self.dismiss(animated: true)
+            
+        } else {
+            loginOrRegister(statusPassword: status, password: password)
+        
+        }
+        let login = LoginViewController()
+        login.dismiss(animated: true)
+    }
+}
+
+extension UIViewController {
+    var isModal: Bool {
+        if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
+            return false
+        } else if presentingViewController != nil {
+            return true
+        } else if navigationController?.presentingViewController?.presentedViewController == navigationController {
+            return true
+        } else if tabBarController?.presentingViewController is UITabBarController {
+            return true
+        } else {
+            return false
+        }
     }
 }

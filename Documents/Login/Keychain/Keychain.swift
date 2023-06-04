@@ -109,6 +109,33 @@ class Keychain {
         
     }
     
+    func changePassword(password: String) {
+        
+        guard let passData = password.data(using: .utf8) else {
+            print("Error - not could Data from password")
+            return
+        }
+        
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+//            kSecValueData: passData,
+        ] as [CFString : Any] as CFDictionary
+        
+        let attributesToUpdate = [
+            kSecValueData: passData,
+        ] as [CFString : Any] as CFDictionary
+        
+        
+        let status = SecItemUpdate(query, attributesToUpdate)
+        guard status == errSecSuccess else {
+            print("Невозможно обновить пароль, ошибка: \(status)")
+            return
+        }
+        
+        print("пароль обновлен")
+        
+    }
+    
     func deletePassword(password: String) {
         
         guard let passData = password.data(using: .utf8) else {
