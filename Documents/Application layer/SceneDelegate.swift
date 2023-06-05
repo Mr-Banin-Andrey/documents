@@ -16,7 +16,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        
 //        UserDefaults.standard.removeObject(forKey: "statusLogin")
         
         let tabBarController = TabBarController()

@@ -11,7 +11,7 @@ class LoginView: UIView {
     
     private weak var delegate: LoginViewDelegate?
     
-    private lazy var loginOrRegisterButton: UIButton = {
+    lazy var loginOrRegisterButton: UIButton = {
         let label = UIButton()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .darkGray
@@ -45,34 +45,33 @@ class LoginView: UIView {
         self.addSubview(self.loginOrRegisterButton)
         self.addSubview(self.passwordTextField)
 
-        self.loginOrRegisterButton.snp.makeConstraints { maker in
-            maker.centerX.equalTo(self.snp.centerX)
-            maker.centerY.equalTo(self.snp.centerY) 
-            maker.height.equalTo(32)
-            maker.width.equalTo(200)
-        }
-
         self.passwordTextField.snp.makeConstraints { maker in
             maker.centerX.equalTo(self.snp.centerX)
             maker.top.equalTo(self.snp.top).inset(350)
             maker.height.equalTo(32)
             maker.leading.trailing.equalToSuperview().inset(32)
         }
-    }
-    
-    func editTitle(isRegister: Bool) {
         
-        if isRegister {
-            passwordTextField.placeholder = "....."
-            loginOrRegisterButton.setTitle("Введите пароль", for: .normal)
-        } else {
-            passwordTextField.placeholder = " Пароль минимум из 4 символов "
-            loginOrRegisterButton.setTitle("Создать пароль", for: .normal)
+        self.loginOrRegisterButton.snp.makeConstraints { maker in
+            maker.centerX.equalTo(self.snp.centerX)
+            maker.top.equalTo(passwordTextField.snp.bottom).offset(24)
+            maker.height.equalTo(32)
+            maker.width.equalTo(200)
         }
     }
     
-    func repeatPassword() {
-        loginOrRegisterButton.setTitle("Повторите пароль", for: .normal)
+    func editTitle(status: StatusLogin){ 
+        switch status {
+        case .newPassword:
+            passwordTextField.placeholder = " Пароль минимум из 4 символов "
+            loginOrRegisterButton.setTitle("Создать пароль", for: .normal)
+        case .checkNewPassword:
+            passwordTextField.placeholder = "..."
+            loginOrRegisterButton.setTitle("Повторите пароль", for: .normal)
+        case .createdPassword:
+            passwordTextField.placeholder = "..."
+            loginOrRegisterButton.setTitle("Введите пароль", for: .normal)
+        }
     }
     
     func showAlert(vc: UIViewController, title: String, message: String, button: String) {

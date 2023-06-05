@@ -6,11 +6,7 @@ import Security
 class Keychain {
     
     private var firstPassword = ""
-    private var secondPassword = ""
-    
-    let userDefaults = UserDefaults.standard
-
-    
+        
     func createPassword(_ password: String) -> Bool {
         if password.count >= 4 {
             firstPassword = password
@@ -21,25 +17,13 @@ class Keychain {
     
     func repeatPassword(_ password: String) -> Bool {
         if firstPassword == password {
-            secondPassword = password
+            addPasswordInKeychain(password)
+            firstPassword = ""
             return true
         }
         return false
     }
-    
-    func checkPassword() {
         
-        print("firstPassword -", firstPassword)
-        print("secondPassword -", secondPassword)
-    }
-    
-    func clearVariable() {
-        firstPassword = ""
-        secondPassword = ""
-    }
-    
-    
-    
     func addPasswordInKeychain(_ password: String) {
        
         guard let passData = password.data(using: .utf8) else {
@@ -98,17 +82,6 @@ class Keychain {
         return true
     }
     
-    func statusLogin(status: StatusLogin, key: String) {
-        do {
-            let data = try JSONEncoder().encode(status)
-            userDefaults.set(data, forKey: key)
-            print("закодирован статус")
-        } catch let error {
-            print(error)
-        }
-        
-    }
-    
     func changePassword(password: String) {
         
         guard let passData = password.data(using: .utf8) else {
@@ -118,7 +91,6 @@ class Keychain {
         
         let query = [
             kSecClass: kSecClassGenericPassword,
-//            kSecValueData: passData,
         ] as [CFString : Any] as CFDictionary
         
         let attributesToUpdate = [

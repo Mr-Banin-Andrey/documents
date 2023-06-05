@@ -11,7 +11,7 @@ class DocumentsViewController: UIViewController {
     private let manager = DocumentsFileManager()
     
     var images: [DocumentsModel] = []
-                
+                    
     override func loadView() {
         super.loadView()
         view = documentsView
@@ -23,7 +23,7 @@ class DocumentsViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         navigationItem.hidesBackButton = true
         
-        manager.managerFilesMore(manager.managerCreateUrl()) { array in
+        manager.managerFiles(manager.managerCreateUrl()) { array in
             self.images = array
             self.images.sort {
                 $0.nameImage < $1.nameImage
@@ -49,9 +49,15 @@ class DocumentsViewController: UIViewController {
                                                 title: "Documents")
     }
     
+    func abs(array: [DocumentsModel]) {
+        images = array
+        images.sort {
+            $0.nameImage < $1.nameImage
+        }
+    }
     
     @objc func moreArray() {
-        manager.managerFilesMore(manager.managerCreateUrl()) { array in
+        manager.managerFiles(manager.managerCreateUrl()) { array in
             self.images = array
             self.images.sort {
                 $0.nameImage < $1.nameImage
@@ -61,7 +67,7 @@ class DocumentsViewController: UIViewController {
     }
     
     @objc func lessArray() {
-        manager.managerFilesMore(manager.managerCreateUrl()) { array in
+        manager.managerFiles(manager.managerCreateUrl()) { array in
             self.images = array
             self.images.sort {
                 $0.nameImage > $1.nameImage

@@ -24,7 +24,7 @@
 		9D67063A2A2B365A00438374 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6706392A2B365A00438374 /* TabBarController.swift */; };
 		9D67063C2A2B367200438374 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D67063B2A2B367200438374 /* SettingsViewController.swift */; };
 		9D67063E2A2B367F00438374 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D67063D2A2B367F00438374 /* SettingsView.swift */; };
-		9D6706432A2CBBC300438374 /* MyUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6706422A2CBBC300438374 /* MyUserDefaults.swift */; };
+		9D6706462A2E259C00438374 /* UserDefaultStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6706452A2E259C00438374 /* UserDefaultStruct.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 		9D6706392A2B365A00438374 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9D67063B2A2B367200438374 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9D67063D2A2B367F00438374 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		9D6706422A2CBBC300438374 /* MyUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUserDefaults.swift; sourceTree = "<group>"; };
+		9D6706452A2E259C00438374 /* UserDefaultStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultStruct.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +86,7 @@
 				9D2EB2E22A27D018000EEE51 /* Controller */,
 				9D2EB2E02A27CFF3000EEE51 /* Model */,
 				9D2EB2F42A28A4AE000EEE51 /* Keychain */,
+				9D6706442A2E257300438374 /* UserDefaults */,
 				9D2EB2E12A27D008000EEE51 /* View */,
 			);
 			path = Login;
@@ -146,7 +147,6 @@
 				9D2EB2DF2A27CA61000EEE51 /* Login */,
 				9D6706332A2B353D00438374 /* Modules */,
 				9D6706382A2B364700438374 /* TabBar */,
-				9D6706412A2CBB9600438374 /* UserDefaults */,
 				9D4FB8ED2A1D4F300002920B /* Assets.xcassets */,
 				9D4FB8EF2A1D4F300002920B /* LaunchScreen.storyboard */,
 				9D4FB8F22A1D4F300002920B /* Info.plist */,
@@ -200,17 +200,9 @@
 			isa = PBXGroup;
 			children = (
 				9D6706372A2B357200438374 /* Controller */,
-				9D6706352A2B355A00438374 /* Model */,
 				9D6706362A2B356900438374 /* View */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		9D6706352A2B355A00438374 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		9D6706362A2B356900438374 /* View */ = {
@@ -237,10 +229,10 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		9D6706412A2CBB9600438374 /* UserDefaults */ = {
+		9D6706442A2E257300438374 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
-				9D6706422A2CBBC300438374 /* MyUserDefaults.swift */,
+				9D6706452A2E259C00438374 /* UserDefaultStruct.swift */,
 			);
 			path = UserDefaults;
 			sourceTree = "<group>";
@@ -327,7 +319,7 @@
 				9D6706322A28F70100438374 /* StatusLogin.swift in Sources */,
 				9D67063A2A2B365A00438374 /* TabBarController.swift in Sources */,
 				9D24089D2A1E628700181915 /* DocumentsFileManager.swift in Sources */,
-				9D6706432A2CBBC300438374 /* MyUserDefaults.swift in Sources */,
+				9D6706462A2E259C00438374 /* UserDefaultStruct.swift in Sources */,
 				9D4FB9002A1E5E3E0002920B /* DocumentsViewController.swift in Sources */,
 				9D2EB2D32A260971000EEE51 /* DocumentsModel.swift in Sources */,
 				9D4FB8E52A1D4F2F0002920B /* AppDelegate.swift in Sources */,

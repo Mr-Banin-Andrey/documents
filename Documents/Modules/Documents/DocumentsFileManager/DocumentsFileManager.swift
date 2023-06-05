@@ -35,7 +35,7 @@ struct DocumentsFileManager {
     
     
     
-    func managerFilesMore(_ url: URL, completion: @escaping ([DocumentsModel]) -> Void) { 
+    func managerFiles(_ url: URL, completion: @escaping ([DocumentsModel]) -> Void) { 
         var images: [DocumentsModel] = []
         
         for file in contents(url) {

@@ -35,16 +35,9 @@ extension SettingsViewController: SettingsViewDelegate {
     }
     
     func changePassword() {
+        
         let loginVc = LoginViewController()
         let navСontroller = UINavigationController(rootViewController: loginVc)
-//        loginVc.
-//        navСontroller.modalPresentationStyle = .fullScreen
-//        navСontroller.isModalInPresentation
         self.navigationController?.present(navСontroller, animated: true, completion: nil)
     }
 }
-
-//let addHabit = HabitViewController()
-//let navСontroller = UINavigationController(rootViewController: addHabit)
-//navСontroller.modalPresentationStyle = .fullScreen
-//self.navigationController?.present(navСontroller, animated: true, completion: nil)
