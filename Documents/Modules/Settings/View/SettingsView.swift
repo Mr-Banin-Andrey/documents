@@ -29,6 +29,15 @@ class SettingsView: UIView {
         return sortSwitch
     }()
     
+    private lazy var nameSwitch: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Сортировка от А-Я"
+        label.textColor = .black
+        label.numberOfLines = 2
+        return label
+    }()
+    
     init(delegate: SettingsViewDelegate) {
         self.delegate = delegate
         super.init(frame: .zero)
@@ -44,15 +53,30 @@ class SettingsView: UIView {
     private func setupUi() {
         self.addSubview(self.changePasswordButton)
         self.addSubview(self.sortSwitch)
+        self.addSubview(self.nameSwitch)
         
         self.changePasswordButton.snp.makeConstraints { maker in
             maker.centerY.equalTo(self.snp.centerY)
-            maker.leading.equalTo(self.snp.leading).inset(50)
+            maker.leading.equalTo(self.snp.leading).inset(32)
         }
         
         self.sortSwitch.snp.makeConstraints { maker in
             maker.centerY.equalTo(self.snp.centerY)
-            maker.trailing.equalTo(self.snp.trailing).inset(50)
+            maker.trailing.equalTo(self.snp.trailing).inset(64)
+        }
+        
+        self.nameSwitch.snp.makeConstraints { maker in
+            maker.top.equalTo(self.sortSwitch.snp.bottom).offset(8)
+            maker.centerX.equalTo(self.sortSwitch.snp.centerX)
+            
+        }
+    }
+    
+    func changeNameSwitchLabel(isSwitch: Bool) {
+        if isSwitch {
+            self.nameSwitch.text = "Сортировка от А-Я"
+        } else {
+            self.nameSwitch.text = "Сортировка от Я-А"
         }
     }
     
